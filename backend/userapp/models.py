@@ -6,4 +6,4 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 
     username = models.CharField(max_length = 30, blank = False, null = False, unique = True)
-    
+
