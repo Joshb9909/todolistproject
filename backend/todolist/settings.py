@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "todolistapp",
     "userapp",
     "taskapp",
+    "subtaskapp",
 ]
 
 MIDDLEWARE = [
