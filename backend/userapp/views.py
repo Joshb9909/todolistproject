@@ -35,3 +35,20 @@ class CreateAccount(APIView):
             return Response(
                 {"error": "A user with this username already exists."}, status= HTTP_400_BAD_REQUEST
             )
+
+class Log_in(APIView):
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
+        user = authenticate(username=username, password=password)
+        if user:
+            token, created = Token.objects.get_or_create(user=user)
+            life_time = datetime.now() + timedelta(days=30)
+            format_life_time = life_time.strftime("%a, %d %b %Y %H:%M:%S CST")
+            user_serializer = UserSerializer(user)
+            response = Response({"user":{**user_serializer.data}})
+            response.set_cookie(key="token", value=token.key, httponly=True, secure=True, samesite="Lax", expires = format_life_time)
+            return response
+            # return Response({"token": token.key, **user_serializer.data})
+        else:
+            return Response("No user matching credentials", status=HTTP_404_NOT_FOUND)
