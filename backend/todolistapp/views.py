@@ -48,4 +48,25 @@ class DeleteToDoList(APIView):
         
         to_do_list.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+class GetOneList(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+
+        list = get_object_or_404(ToDoList, pk=pk)
+        serializer = ToDoListSerializer(list)
+        return Response(serializer.data)
     
+class GetAllLists(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        lists = ToDoList.objects.all().order_by('-created_at')
+        serializer = ToDoListSerializer(lists, many = True)
+        return Response(serializer.data)
+
+
