@@ -21,11 +21,11 @@ class CreateToDoList(APIView):
     def post(self, request):
 
         user = request.user
-        post_data ={
+        list_data ={
             'user_id' : user.id,
             'title' : request.data.get('title')
         }
-        serializer = ToDoListSerializer(data=post_data)
+        serializer = ToDoListSerializer(data=list_data)
 
         if serializer.is_valid():
             serializer.save()

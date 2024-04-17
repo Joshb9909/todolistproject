@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import toDoList
+from .models import ToDoList
 
 class ToDoListSerializer(serializers.ModelSerializer):
 
     class Meta:
 
-        model = toDoList
+        model = ToDoList
         fields = ['user_id', 'title', 'id']
