@@ -23,6 +23,7 @@ class CreateTask(APIView):
         task_data ={
             'to_do_list_id' : request.data.get('to_do_list_id'),
             'task_text' : request.data.get('task_text'),
+            'is_done' : False,
         }
         serializer = TaskSerializer(data=task_data)
 
@@ -31,3 +32,16 @@ class CreateTask(APIView):
             return Response(serializer.data ,status=HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+        
+class DeleteTask(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+
+        task_id = request.data.get('task_id')
+        task = get_object_or_404(Task, pk=task_id)
+
+        task.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
+    
