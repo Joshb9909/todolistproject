@@ -55,3 +55,12 @@ class GetAllTasks(APIView):
         serializer = TaskSerializer(tasks, many=True)
         return Response(serializer.data)
     
+class GetOneTask(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+
+        task = get_object_or_404(Task, pk=pk)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
