@@ -44,4 +44,14 @@ class DeleteTask(APIView):
 
         task.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+class GetAllTasks(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+
+        tasks = Task.objects.all().order_by('-created_at')
+        serializer = TaskSerializer(tasks, many=True)
+        return Response(serializer.data)
     
