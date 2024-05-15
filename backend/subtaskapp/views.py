@@ -14,4 +14,20 @@ from rest_framework.status import (
 from userapp.utilities import HttpOnlyToken
 from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
+class CreateSubTask(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        sub_task_data = {
+            'task_id': request.data.get('task_id'),
+            'sub_task_text': request.data.get('sub_task_text')
+        }
+        serializer = SubTaskSerializer(data=sub_task_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status= HTTP_400_BAD_REQUEST)
