@@ -31,3 +31,15 @@ class CreateSubTask(APIView):
             return Response(serializer.data, status=HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status= HTTP_400_BAD_REQUEST)
+        
+class DeleteSubTask(APIView):
+    authentication_classes = [HttpOnlyToken]
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request):
+
+        sub_task_id = request.data.get('id')
+        sub_task = get_object_or_404(SubTask, pk=sub_task_id)
+
+        sub_task.delete()
+        return Response(status = HTTP_204_NO_CONTENT)

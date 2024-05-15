@@ -6,4 +6,4 @@ class SubTaskSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = SubTask
-        fields = ['task_id', 'sub_task_text']
+        fields = ['task_id', 'sub_task_text', 'id']

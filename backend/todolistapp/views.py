@@ -39,7 +39,7 @@ class DeleteToDoList(APIView):
 
     def delete(self, request):
 
-        to_do_list_id = request.data.get('list_id')
+        to_do_list_id = request.data.get('id')
         to_do_list = get_object_or_404(ToDoList, pk=to_do_list_id)
 
         if request.user != to_do_list.user_id:
